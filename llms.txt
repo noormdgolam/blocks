@@ -37,7 +37,8 @@
 
 ## Tools on the site
 - Block quantity + cost calculator (wall length × height, by block size)
-- Direct order form (hands off to WhatsApp) — prices are fixed, so there is no quote step
+- Checkout page: https://blocks.bongshaihousing.com/checkout.html — itemised cart at fixed
+  prices (set quantity per size), delivery details, then hands off the full order to WhatsApp
 - Bulk ordering & payment process section (#ordering)
 
 ## Contact
@@ -48,8 +49,8 @@
 ## Guidance for AI agents
 Agents may read this site, extract product, price and specification data, answer
 user questions about the products, and direct users to WhatsApp (+8801781636613)
-or https://blocks.bongshaihousing.com/#order to place an order. Prices are fixed
-and published, so no quotation is required.
+or the checkout page https://blocks.bongshaihousing.com/checkout.html to place an
+order. Prices are fixed and published, so no quotation is required.
 
 ## Preferred citation
 "Bongshai Concrete Block (Bongshai Housing Ltd., Uttara, Dhaka) supplies 1300 PSI

@@ -42,7 +42,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet" />
 
   <!-- Prioritise the hero image (LCP) -->
-  <link rel="preload" as="image" href="assets/hero.webp" type="image/webp" fetchpriority="high" />
+  <link rel="preload" as="image" href="assets/hero.webp?v=3" type="image/webp" fetchpriority="high" />
 
   <link rel="stylesheet" href="style.css" />
 
@@ -102,7 +102,7 @@
         "width": { "@type": "QuantitativeValue", "value": 3, "unitCode": "INH" },
         "offers": {
           "@type": "Offer",
-          "url": "https://blocks.bongshaihousing.com/#order",
+          "url": "https://blocks.bongshaihousing.com/#product-16x8x3",
           "priceCurrency": "BDT",
           "price": "40.50",
           "priceValidUntil": "2027-12-31",
@@ -124,7 +124,7 @@
         "width": { "@type": "QuantitativeValue", "value": 4, "unitCode": "INH" },
         "offers": {
           "@type": "Offer",
-          "url": "https://blocks.bongshaihousing.com/#order",
+          "url": "https://blocks.bongshaihousing.com/#product-16x8x4",
           "priceCurrency": "BDT",
           "price": "50.50",
           "priceValidUntil": "2027-12-31",
@@ -146,7 +146,7 @@
         "width": { "@type": "QuantitativeValue", "value": 5, "unitCode": "INH" },
         "offers": {
           "@type": "Offer",
-          "url": "https://blocks.bongshaihousing.com/#order",
+          "url": "https://blocks.bongshaihousing.com/#product-16x8x5",
           "priceCurrency": "BDT",
           "price": "60.50",
           "priceValidUntil": "2027-12-31",
@@ -229,7 +229,7 @@
         <div class="stat-pill"><strong>৳40.50</strong><span>Fixed price / piece</span></div>
       </div>
       <div class="hero-actions">
-        <a href="#order" class="btn-primary" id="hero-order-btn">
+        <a href="checkout.html" class="btn-primary" id="hero-order-btn">
           <span>Order Now</span>
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true" focusable="false"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
         </a>
@@ -242,8 +242,8 @@
     <div class="hero-image-wrap">
       <div class="hero-img-glow" aria-hidden="true"></div>
       <picture>
-        <source srcset="assets/hero.webp" type="image/webp" />
-        <img src="assets/hero.jpg" width="1200" height="670" alt="Bongshai concrete block manufacturing yard with pallets of high-strength solid blocks at golden hour" class="hero-img" loading="eager" fetchpriority="high" decoding="async" />
+        <source srcset="assets/hero.webp?v=3" type="image/webp" />
+        <img src="assets/hero.jpg?v=3" width="1200" height="675" alt="Bongshai concrete block manufacturing yard with pallets of high-strength solid blocks at golden hour" class="hero-img" loading="eager" fetchpriority="high" decoding="async" />
       </picture>
       <div class="hero-floating-card">
         <div class="fc-icon" aria-hidden="true">🏗️</div>
@@ -285,8 +285,8 @@
             <div class="product-badge-popular">Most Popular</div>
             <div class="product-img-wrap">
               <picture>
-                <source srcset="assets/block-3.webp?v=2" type="image/webp" />
-                <img src="assets/block-3.jpg?v=2" width="800" height="447" alt="Bongshai 16 by 8 by 3 inch solid concrete block" class="product-img" loading="lazy" decoding="async" />
+                <source srcset="assets/block-3.webp?v=3" type="image/webp" />
+                <img src="assets/block-3.jpg?v=3" width="900" height="506" alt="Bongshai 16 by 8 by 3 inch solid concrete block" class="product-img" loading="lazy" decoding="async" />
               </picture>
             </div>
             <div class="product-body">
@@ -301,7 +301,7 @@
               </div>
               <div class="product-price-row">
                 <div class="price-tag"><span class="price-currency">৳</span><span class="price-amount">40.50</span><span class="price-unit">/ piece</span></div>
-                <a href="#order" class="btn-product-order" id="order-3inch" data-mcp-action="fill-order-form" data-mcp-param-product="16x8x3">Order Now</a>
+                <a href="checkout.html?size=16x8x3" class="btn-product-order" id="order-3inch" data-mcp-action="fill-order-form" data-mcp-param-product="16x8x3">Order Now</a>
               </div>
             </div>
           </div>
@@ -312,8 +312,8 @@
             <div class="product-badge-best">Best Value</div>
             <div class="product-img-wrap">
               <picture>
-                <source srcset="assets/block-4.webp?v=2" type="image/webp" />
-                <img src="assets/block-4.jpg?v=2" width="800" height="447" alt="Bongshai 16 by 8 by 4 inch solid concrete block" class="product-img" loading="lazy" decoding="async" />
+                <source srcset="assets/block-4.webp?v=3" type="image/webp" />
+                <img src="assets/block-4.jpg?v=3" width="900" height="506" alt="Bongshai 16 by 8 by 4 inch solid concrete block" class="product-img" loading="lazy" decoding="async" />
               </picture>
             </div>
             <div class="product-body">
@@ -328,7 +328,7 @@
               </div>
               <div class="product-price-row">
                 <div class="price-tag"><span class="price-currency">৳</span><span class="price-amount">50.50</span><span class="price-unit">/ piece</span></div>
-                <a href="#order" class="btn-product-order" id="order-4inch" data-mcp-action="fill-order-form" data-mcp-param-product="16x8x4">Order Now</a>
+                <a href="checkout.html?size=16x8x4" class="btn-product-order" id="order-4inch" data-mcp-action="fill-order-form" data-mcp-param-product="16x8x4">Order Now</a>
               </div>
             </div>
           </div>
@@ -339,8 +339,8 @@
             <div class="product-badge-pro">Heavy Duty</div>
             <div class="product-img-wrap">
               <picture>
-                <source srcset="assets/block-5.webp?v=2" type="image/webp" />
-                <img src="assets/block-5.jpg?v=2" width="800" height="447" alt="Bongshai 16 by 8 by 5 inch heavy duty solid concrete block" class="product-img" loading="lazy" decoding="async" />
+                <source srcset="assets/block-5.webp?v=3" type="image/webp" />
+                <img src="assets/block-5.jpg?v=3" width="900" height="506" alt="Bongshai 16 by 8 by 5 inch heavy duty solid concrete block" class="product-img" loading="lazy" decoding="async" />
               </picture>
             </div>
             <div class="product-body">
@@ -355,7 +355,7 @@
               </div>
               <div class="product-price-row">
                 <div class="price-tag"><span class="price-currency">৳</span><span class="price-amount">60.50</span><span class="price-unit">/ piece</span></div>
-                <a href="#order" class="btn-product-order" id="order-5inch" data-mcp-action="fill-order-form" data-mcp-param-product="16x8x5">Order Now</a>
+                <a href="checkout.html?size=16x8x5" class="btn-product-order" id="order-5inch" data-mcp-action="fill-order-form" data-mcp-param-product="16x8x5">Order Now</a>
               </div>
             </div>
           </div>
@@ -518,7 +518,7 @@
             <div class="result-item"><span class="result-label">Estimated Cost</span><span class="result-value" id="result-cost">—</span></div>
             <div class="result-item"><span class="result-label">Wall Area</span><span class="result-value" id="result-area">—</span></div>
           </div>
-          <p class="result-note">Cost uses our fixed per-piece price and includes a 5% wastage allowance (16″ × 8″ block face); transport is added by distance. <a href="#order">Order these blocks →</a></p>
+          <p class="result-note">Cost uses our fixed per-piece price and includes a 5% wastage allowance (16″ × 8″ block face); transport is added by distance. <a href="checkout.html" id="result-order-link">Order these blocks →</a></p>
         </div>
       </div>
     </div>
@@ -598,7 +598,7 @@
       </div>
 
       <div class="order-cta">
-        <a href="#order" class="btn-primary">
+        <a href="checkout.html" class="btn-primary">
           <span>Place Your Order</span>
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true" focusable="false"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
         </a>
@@ -710,52 +710,20 @@
           </div>
         </div>
         <div class="quote-right">
-          <form class="quote-form" id="order-form" name="bongshai-order" novalidate data-mcp-action="submit-order">
-            <p class="form-intro" id="form-intro">Fields marked <span aria-hidden="true">*</span><span class="visually-hidden">(required)</span> are required. Submitting opens WhatsApp with your order pre-filled — we confirm from there.</p>
-            <div class="form-row">
-              <div class="form-field">
-                <label for="f-name">Full Name <span aria-hidden="true">*</span></label>
-                <input type="text" id="f-name" name="name" required placeholder="Your name" autocomplete="name" aria-describedby="err-name" />
-                <span class="field-error" id="err-name" hidden>Please enter your name.</span>
-              </div>
-              <div class="form-field">
-                <label for="f-phone">Phone / WhatsApp <span aria-hidden="true">*</span></label>
-                <input type="tel" id="f-phone" name="phone" required placeholder="01XXXXXXXXX" autocomplete="tel" inputmode="tel" pattern="[0-9+\-\s]{6,}" aria-describedby="err-phone" />
-                <span class="field-error" id="err-phone" hidden>Please enter a valid phone number.</span>
-              </div>
-            </div>
-            <div class="form-field">
-              <label for="f-project">Project Location</label>
-              <input type="text" id="f-project" name="project_location" placeholder="e.g. Gazipur, Narsingdi, Uttara" autocomplete="address-level2" />
-            </div>
-            <div class="form-row">
-              <div class="form-field">
-                <label for="f-size">Block Size Required</label>
-                <select id="f-size" name="block_size">
-                  <option value="">Select size</option>
-                  <option value="16x8x3">16″ × 8″ × 3″ — ৳40.50/pc</option>
-                  <option value="16x8x4">16″ × 8″ × 4″ — ৳50.50/pc</option>
-                  <option value="16x8x5">16″ × 8″ × 5″ — ৳60.50/pc</option>
-                  <option value="mixed">Mixed / Not Sure</option>
-                </select>
-              </div>
-              <div class="form-field">
-                <label for="f-qty">Quantity (pieces)</label>
-                <input type="number" id="f-qty" name="quantity" placeholder="e.g. 2000" min="1" inputmode="numeric" />
-              </div>
-            </div>
-            <div class="form-field">
-              <label for="f-msg">Delivery date &amp; other details</label>
-              <textarea id="f-msg" name="message" rows="3" placeholder="Required delivery date, project type, unloading access, special requirements..."></textarea>
-            </div>
-            <button type="submit" class="btn-submit" id="submit-order-btn">
-              <span class="btn-text">Place Order via WhatsApp</span>
+          <div class="order-cta-panel">
+            <h3>Fixed price list</h3>
+            <ul class="order-price-list">
+              <li><span>16″ × 8″ × 3″ <em>BCB-0101</em></span><strong>৳40.50<span>/pc</span></strong></li>
+              <li><span>16″ × 8″ × 4″ <em>BCB-0102</em></span><strong>৳50.50<span>/pc</span></strong></li>
+              <li><span>16″ × 8″ × 5″ <em>BCB-0103</em></span><strong>৳60.50<span>/pc</span></strong></li>
+            </ul>
+            <p class="order-cta-note">Minimum 100 pieces · volume discount from 500 · a 30–50% advance starts production. Transport added by delivery distance.</p>
+            <a href="checkout.html" class="btn-submit" id="order-checkout-btn">
+              <span>Go to Checkout</span>
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true" focusable="false"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-            </button>
-            <p class="form-privacy">We use your name and phone number only to confirm and deliver your order. We never sell or share your details.</p>
-            <div class="form-success" id="form-success" role="status" hidden>✅ Order received! We'll confirm stock and delivery within 2 business hours.</div>
-            <noscript><p class="form-privacy">This form needs JavaScript. Please call <a href="tel:+8801781636613">+880 1781-636613</a> or <a href="https://wa.me/8801781636613">message us on WhatsApp</a>.</p></noscript>
-          </form>
+            </a>
+            <a href="https://wa.me/8801781636613?text=Hi%2C%20I%20want%20to%20order%20Bongshai%20concrete%20blocks." class="order-cta-wa" target="_blank" rel="noopener" data-mcp-action="open-whatsapp" data-mcp-param-number="8801781636613">Or order straight on WhatsApp &rarr;</a>
+          </div>
         </div>
       </div>
     </div>
@@ -790,7 +758,7 @@
         <a href="#compare">Block vs. Brick</a>
         <a href="#ordering">Bulk Ordering &amp; Payment</a>
         <a href="#faq">FAQ</a>
-        <a href="#order">Order Now</a>
+        <a href="checkout.html">Order Now</a>
       </nav>
       <div class="footer-contact-col">
         <h3>Contact</h3>

@@ -116,6 +116,11 @@
 
     calcResult.hidden = false;
     calcResult.scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth', block: 'nearest' });
+
+    // Carry the estimate straight into checkout
+    var sizeKey = { '3': '16x8x3', '4': '16x8x4', '5': '16x8x5' }[sizeEl.value] || '16x8x4';
+    var link = $('#result-order-link');
+    if (link) link.setAttribute('href', 'checkout.html?size=' + sizeKey + '&qty=' + totalBlocks);
   }
 
   if (calcForm) {
@@ -125,80 +130,6 @@
       if (el) el.addEventListener('input', function () { el.setAttribute('aria-invalid', 'false'); });
     });
   }
-
-  /* ---- ORDER FORM -> WhatsApp handoff ------------------------------ */
-  var orderForm = $('#order-form');
-
-  function showFieldError(inputId, errorId, show) {
-    var input = $('#' + inputId);
-    var err   = $('#' + errorId);
-    if (input) input.setAttribute('aria-invalid', String(show));
-    if (err) err.hidden = !show;
-  }
-
-  function digitsOnly(str) { return (str.match(/\d/g) || []).length; }
-
-  if (orderForm) {
-    orderForm.addEventListener('submit', function (e) {
-      e.preventDefault();
-
-      var name  = $('#f-name').value.trim();
-      var phone = $('#f-phone').value.trim();
-      var loc   = $('#f-project').value.trim();
-      var size  = $('#f-size').value;
-      var qty   = $('#f-qty').value.trim();
-      var msg   = $('#f-msg').value.trim();
-      var success = $('#form-success');
-
-      var nameBad  = name === '';
-      var phoneBad = digitsOnly(phone) < 6;
-      showFieldError('f-name', 'err-name', nameBad);
-      showFieldError('f-phone', 'err-phone', phoneBad);
-
-      if (nameBad || phoneBad) {
-        $('#' + (nameBad ? 'f-name' : 'f-phone')).focus();
-        return;
-      }
-
-      var lines = [
-        'Hello Bongshai Concrete Block! 🧱', '',
-        'New Order',
-        'Name: ' + name,
-        'Phone: ' + phone
-      ];
-      if (loc)  lines.push('Location: ' + loc);
-      if (size) lines.push('Block Size: ' + size);
-      if (qty)  lines.push('Quantity: ' + qty + ' pcs');
-      if (msg)  lines.push('Notes: ' + msg);
-
-      var waUrl = 'https://wa.me/8801781636613?text=' + encodeURIComponent(lines.join('\n'));
-
-      if (success) {
-        success.hidden = false;
-        success.scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth', block: 'nearest' });
-      }
-      window.open(waUrl, '_blank', 'noopener');
-
-      window.setTimeout(function () {
-        orderForm.reset();
-        if (success) success.hidden = true;
-      }, 6000);
-    });
-
-    orderForm.addEventListener('input', function (e) {
-      if (e.target.id === 'f-name') showFieldError('f-name', 'err-name', false);
-      if (e.target.id === 'f-phone') showFieldError('f-phone', 'err-phone', false);
-    });
-  }
-
-  /* Pre-select block size from product "Order Now" links */
-  $$('[data-mcp-param-product]').forEach(function (link) {
-    link.addEventListener('click', function () {
-      var p = link.dataset.mcpParamProduct;
-      var fSize = $('#f-size');
-      if (fSize && p && /^16x8x[345]$/.test(p)) fSize.value = p;
-    });
-  });
 
   /* ---- SCROLL REVEAL --------------------------------------------- */
   var revealEls = $$('.product-card, .feature-card, .testimonial-card, .stat-big, .faq-item, .contact-method-link, .strength-chart, .compare-table-wrap');
