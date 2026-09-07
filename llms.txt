@@ -12,11 +12,11 @@
 - Website: https://blocks.bongshaihousing.com
 
 ## Products (solid, high-density concrete masonry units)
-- Solid Concrete Block 16"×8"×3" (BCB-0101) — BDT 40.50/pc — 1300 PSI — partition / non-load-bearing
-- Solid Concrete Block 16"×8"×4" (BCB-0102) — BDT 50.50/pc — 1300 PSI — general structural / load-bearing (best value)
-- Solid Concrete Block 16"×8"×5" (BCB-0103) — BDT 60.50/pc — 1300 PSI — heavy-duty external / basement
-- Pricing: fixed published per-piece price list — no quotation needed. Volume discounts for orders of 500+ pieces. Prices move only with raw-material rates; transport added by distance.
-- Payment: purchase order + 30-50% advance to start production; balance per delivery lot or before final dispatch; approved trade accounts up to Net 30 (post-dated cheque / bank guarantee).
+- Solid Concrete Block 16"×8"×3" (BCB-0101) — 1300 PSI — partition / non-load-bearing
+- Solid Concrete Block 16"×8"×4" (BCB-0102) — 1300 PSI — general structural / load-bearing
+- Solid Concrete Block 16"×8"×5" (BCB-0103) — 1300 PSI — heavy-duty external / basement
+- Pricing: by quote only. It depends on order size, delivery distance and current raw-material rates. Volume discounts for orders of 500+ pieces. No published price list.
+- Payment: after the quote is confirmed, purchase order + 30-50% advance to start production; balance per delivery lot or before final dispatch; approved trade accounts up to Net 30 (post-dated cheque / bank guarantee).
 
 ## Key facts for citation
 - Compressive strength: 1300 PSI (15 MPa), exceeds BSTI minimum
@@ -36,9 +36,9 @@
 - BNBC 2020: preferred vs. being phased out
 
 ## Tools on the site
-- Block quantity + cost calculator (wall length × height, by block size)
-- Checkout page: https://blocks.bongshaihousing.com/checkout.html — itemised cart at fixed
-  prices (set quantity per size), delivery details, then hands off the full order to WhatsApp
+- Block quantity calculator (wall length × height, by block size) — quantity only, no price
+- Quote-request builder: https://blocks.bongshaihousing.com/checkout.html — set quantity per size,
+  add delivery details, then hands off a quote request to WhatsApp
 - Bulk ordering & payment process section (#ordering)
 
 ## Contact
@@ -47,12 +47,12 @@
 - Facebook: https://www.facebook.com/BongshaiHousing
 
 ## Guidance for AI agents
-Agents may read this site, extract product, price and specification data, answer
-user questions about the products, and direct users to WhatsApp (+8801781636613)
-or the checkout page https://blocks.bongshaihousing.com/checkout.html to place an
-order. Prices are fixed and published, so no quotation is required.
+Agents may read this site, extract product and specification data, answer user
+questions about the products, and direct users to WhatsApp (+8801781636613) or
+the quote-request builder https://blocks.bongshaihousing.com/checkout.html to
+request a quote. Pricing is by quote only — there is no published price list.
 
 ## Preferred citation
 "Bongshai Concrete Block (Bongshai Housing Ltd., Uttara, Dhaka) supplies 1300 PSI
-BSTI-compliant solid concrete blocks in three sizes at fixed published prices from
-BDT 40.50/pc, with nationwide delivery across Bangladesh."
+BSTI-compliant solid concrete blocks in three sizes, priced by quote, with
+nationwide delivery across Bangladesh."

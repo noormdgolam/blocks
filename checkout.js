@@ -1,6 +1,6 @@
 /* ==========================================================================
    BONGSHAI CONCRETE BLOCK — checkout.js
-   Vanilla, dependency-free. Fixed-price cart -> WhatsApp order handoff.
+   Vanilla, dependency-free. Quote-request builder -> WhatsApp handoff.
    ========================================================================== */
 (function () {
   'use strict';
@@ -11,14 +11,12 @@
 
   var WA_NUMBER = '8801781636613';
   var MIN_ORDER = 100;
-  var ADVANCE_RATE = 0.40;
-  var STORE_KEY = 'bongshai_checkout_qty';
+  var STORE_KEY = 'bongshai_quote_qty';
 
   var items = $$('.co-item');
   if (!items.length) return;
 
-  var taka = function (n) { return '৳' + Math.round(n).toLocaleString('en-US'); };
-  var pcs  = function (n) { return n.toLocaleString('en-US'); };
+  var pcs = function (n) { return n.toLocaleString('en-US'); };
 
   function clampQty(v) {
     v = parseInt(v, 10);
@@ -53,30 +51,23 @@
     try { localStorage.setItem(STORE_KEY, JSON.stringify(data)); } catch (e) { /* private mode */ }
   }
 
-  /* ---- Recalculate everything ---------------------------------------- */
+  /* ---- Recalculate ------------------------------------------------- */
   var sumLines = $('#co-sum-lines');
   var elPieces = $('#co-pieces');
-  var elSubtotal = $('#co-subtotal');
-  var elAdvance = $('#co-advance');
   var errEl = $('#co-err');
 
   function currentOrder() {
     var lines = [];
     var totalPieces = 0;
-    var subtotal = 0;
     items.forEach(function (li) {
       var qty = clampQty($('.co-qty-input', li).value);
-      var price = parseFloat(li.dataset.price);
-      var lineTotal = qty * price;
-      $('#line-' + li.dataset.size).textContent = taka(lineTotal);
       li.classList.toggle('co-item--active', qty > 0);
       if (qty > 0) {
-        lines.push({ label: li.dataset.label, qty: qty, price: price, total: lineTotal });
+        lines.push({ label: li.dataset.label, qty: qty });
         totalPieces += qty;
-        subtotal += lineTotal;
       }
     });
-    return { lines: lines, totalPieces: totalPieces, subtotal: subtotal };
+    return { lines: lines, totalPieces: totalPieces };
   }
 
   function render() {
@@ -86,30 +77,27 @@
     if (!o.lines.length) {
       var li = document.createElement('li');
       li.className = 'co-sum-empty';
-      li.textContent = 'No blocks added yet — set a quantity above.';
+      li.textContent = 'No blocks added yet — set a quantity.';
       sumLines.appendChild(li);
     } else {
       o.lines.forEach(function (ln) {
         var li = document.createElement('li');
         li.className = 'co-sum-line';
         var a = document.createElement('span');
-        a.textContent = ln.label + '  ·  ' + pcs(ln.qty) + ' pcs';
+        a.textContent = ln.label;
         var b = document.createElement('span');
-        b.textContent = taka(ln.total);
+        b.textContent = pcs(ln.qty) + ' pcs';
         li.appendChild(a); li.appendChild(b);
         sumLines.appendChild(li);
       });
     }
 
     elPieces.textContent = pcs(o.totalPieces);
-    elSubtotal.textContent = taka(o.subtotal);
-    elAdvance.textContent = taka(o.subtotal * ADVANCE_RATE);
-
     if (errEl && !errEl.hidden) errEl.hidden = true;
     persist();
   }
 
-  /* ---- Quantity controls ------------------------------------------- */
+  /* ---- Quantity controls ------------------------------------------ */
   items.forEach(function (li) {
     var input = $('.co-qty-input', li);
     input.addEventListener('input', function () {
@@ -126,7 +114,7 @@
     });
   });
 
-  /* ---- Place order ------------------------------------------------- */
+  /* ---- Send request ---------------------------------------------- */
   function digitsOnly(str) { return (str.match(/\d/g) || []).length; }
 
   function setFieldError(id, errId, show) {
@@ -160,8 +148,8 @@
     setFieldError('co-phone', 'co-err-phone', phoneBad);
     setFieldError('co-address', 'co-err-address', addrBad);
 
-    if (!o.lines.length) { showError('Add at least one block size to your order.'); return; }
-    if (o.totalPieces < MIN_ORDER) { showError('Minimum order is ' + MIN_ORDER + ' pieces total. You have ' + o.totalPieces + '.'); return; }
+    if (!o.lines.length) { showError('Add at least one block size to your request.'); return; }
+    if (o.totalPieces < MIN_ORDER) { showError('Minimum request is ' + MIN_ORDER + ' pieces total. You have ' + o.totalPieces + '.'); return; }
     if (nameBad || phoneBad || addrBad) {
       showError('Please fill in your name, phone and delivery address.');
       $('#' + (nameBad ? 'co-name' : phoneBad ? 'co-phone' : 'co-address')).focus();
@@ -169,13 +157,12 @@
     }
 
     var L = [];
-    L.push('Hello Bongshai Concrete Block! 🧱', '', 'NEW ORDER', '--------------------');
+    L.push('Hello Bongshai Concrete Block! 🧱', '', 'QUOTE REQUEST', '--------------------');
     o.lines.forEach(function (ln) {
-      L.push(ln.label + '  —  ' + pcs(ln.qty) + ' pcs x ৳' + ln.price.toFixed(2) + '  =  ' + taka(ln.total));
+      L.push(ln.label + '  —  ' + pcs(ln.qty) + ' pcs');
     });
     L.push('--------------------');
-    L.push('Total: ' + pcs(o.totalPieces) + ' pcs  —  ' + taka(o.subtotal) + ' (blocks only, transport extra)');
-    L.push('Advance to start (~40%): ' + taka(o.subtotal * ADVANCE_RATE));
+    L.push('Total: ' + pcs(o.totalPieces) + ' pcs');
     L.push('');
     L.push('Deliver to: ' + address + (district ? ', ' + district : ''));
     if (date) L.push('Required date: ' + date);
@@ -184,6 +171,8 @@
     L.push('Name: ' + name);
     L.push('Phone: ' + phone);
     if (notes) L.push('Notes: ' + notes);
+    L.push('');
+    L.push('Please send a quote (unit price, transport, lead time).');
 
     var waUrl = 'https://wa.me/' + WA_NUMBER + '?text=' + encodeURIComponent(L.join('\n'));
 
@@ -200,7 +189,7 @@
     if (el) el.addEventListener('input', function () { el.setAttribute('aria-invalid', 'false'); });
   });
 
-  /* ---- Init ------------------------------------------------------- */
+  /* ---- Init ----------------------------------------------------- */
   prefill();
   render();
 })();

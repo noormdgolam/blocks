@@ -105,13 +105,10 @@
     if (calcError) calcError.hidden = true;
 
     var sizeEl    = $('#block-size');
-    var priceEach = parseFloat(sizeEl.options[sizeEl.selectedIndex].dataset.price);
     var wallArea  = lengthFt * heightFt;
     var totalBlocks = Math.ceil((wallArea / BLOCK_FACE_SQFT) * WASTAGE);
-    var totalCost   = Math.ceil(totalBlocks * priceEach);
 
     $('#result-blocks').textContent = totalBlocks.toLocaleString('en-US');
-    $('#result-cost').textContent   = '৳' + totalCost.toLocaleString('en-US');
     $('#result-area').textContent   = wallArea.toLocaleString('en-US', { maximumFractionDigits: 1 }) + ' sq ft';
 
     calcResult.hidden = false;
