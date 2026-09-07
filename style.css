@@ -943,7 +943,6 @@ input[aria-invalid="true"], .form-field input[aria-invalid="true"] { border-colo
 .co-sum-totals dd { font-size: 0.9rem; font-weight: 700; font-variant-numeric: tabular-nums; }
 .co-sum-big dt { color: var(--clr-text); font-weight: 600; }
 .co-sum-big dd { font-family: var(--font-display); font-size: 1.4rem; color: var(--clr-accent); }
-.co-sum-muted dt, .co-sum-muted dd { color: var(--clr-text-dim); font-weight: 500; font-size: 0.8rem; }
 
 #co-place { width: 100%; }
 .co-err {
