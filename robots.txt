@@ -1,0 +1,27 @@
+User-agent: *
+Allow: /
+
+# Allow friendly AI agents
+User-agent: GPTBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: GoogleBot
+Allow: /
+
+User-agent: bingbot
+Allow: /
+
+# Block scrapers
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: SemrushBot
+Disallow: /
+
+Sitemap: https://bongshaihousing.com/sitemap.xml
