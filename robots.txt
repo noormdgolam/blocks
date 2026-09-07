@@ -1,27 +1,48 @@
+# Bongshai Concrete Block — robots.txt
+# https://blocks.bongshaihousing.com
+
 User-agent: *
 Allow: /
 
-# Allow friendly AI agents
+# AI answer engines & assistants — explicitly welcome
 User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
 Allow: /
 
 User-agent: ClaudeBot
 Allow: /
 
+User-agent: Claude-Web
+Allow: /
+
 User-agent: PerplexityBot
 Allow: /
 
-User-agent: GoogleBot
+User-agent: Google-Extended
 Allow: /
 
-User-agent: bingbot
+User-agent: Googlebot
 Allow: /
 
-# Block scrapers
+User-agent: Bingbot
+Allow: /
+
+# SEO crawlers with no user benefit
 User-agent: AhrefsBot
 Disallow: /
 
 User-agent: SemrushBot
 Disallow: /
 
-Sitemap: https://bongshaihousing.com/sitemap.xml
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: DotBot
+Disallow: /
+
+Sitemap: https://blocks.bongshaihousing.com/sitemap.xml

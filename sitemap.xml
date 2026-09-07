@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  <url>
+    <loc>https://blocks.bongshaihousing.com/</loc>
+    <lastmod>2026-09-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://blocks.bongshaihousing.com/assets/og-image.jpg</image:loc>
+      <image:title>Bongshai Concrete Block — 1300 PSI BSTI-compliant solid concrete blocks</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://blocks.bongshaihousing.com/assets/block-4.jpg</image:loc>
+      <image:title>Bongshai Solid Concrete Block 16 x 8 x 4 inch</image:title>
+    </image:image>
+  </url>
+</urlset>

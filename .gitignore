@@ -1,0 +1,5 @@
+# Never commit the upload script or any env files
+ftp_upload.py
+.env
+.env.*
+*.env

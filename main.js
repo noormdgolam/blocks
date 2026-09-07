@@ -1,210 +1,236 @@
-/* ==========================================
+/* ==========================================================================
    BONGSHAI CONCRETE BLOCK — main.js
-   ========================================== */
+   Vanilla, dependency-free. Progressive enhancement only.
+   ========================================================================== */
+(function () {
+  'use strict';
 
-// ---- NAV: scroll effect + hamburger ----
-const navBar    = document.getElementById('nav-bar');
-const hamburger = document.getElementById('hamburger');
-const mobileMenu= document.getElementById('mobile-menu');
+  var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var $  = function (sel, ctx) { return (ctx || document).querySelector(sel); };
+  var $$ = function (sel, ctx) { return Array.prototype.slice.call((ctx || document).querySelectorAll(sel)); };
 
-window.addEventListener('scroll', () => {
-  navBar.classList.toggle('scrolled', window.scrollY > 40);
-}, { passive: true });
+  /* ---- NAV: scroll state + mobile menu ---------------------------------- */
+  var navBar     = $('#nav-bar');
+  var hamburger  = $('#hamburger');
+  var mobileMenu = $('#mobile-menu');
 
-hamburger.addEventListener('click', () => {
-  const isOpen = hamburger.classList.toggle('open');
-  mobileMenu.classList.toggle('open', isOpen);
-  hamburger.setAttribute('aria-expanded', isOpen);
-  mobileMenu.setAttribute('aria-hidden', !isOpen);
-});
+  if (navBar) {
+    var onScroll = function () { navBar.classList.toggle('scrolled', window.scrollY > 32); };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  }
 
-mobileMenu.querySelectorAll('a').forEach(link => {
-  link.addEventListener('click', () => {
-    hamburger.classList.remove('open');
-    mobileMenu.classList.remove('open');
-    hamburger.setAttribute('aria-expanded', 'false');
-    mobileMenu.setAttribute('aria-hidden', 'true');
-  });
-});
+  function setMenu(open) {
+    if (!hamburger || !mobileMenu) return;
+    hamburger.classList.toggle('open', open);
+    hamburger.setAttribute('aria-expanded', String(open));
+    mobileMenu.hidden = !open;
+  }
 
-// ---- COUNTER ANIMATION ----
-const counters = document.querySelectorAll('.stat-number[data-target]');
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (!entry.isIntersecting) return;
-    const el     = entry.target;
-    const target = parseFloat(el.dataset.target);
-    const dur    = 1800;
-    const step   = 16;
-    const inc    = target / (dur / step);
-    let current  = 0;
-    const timer  = setInterval(() => {
-      current += inc;
-      if (current >= target) {
-        el.textContent = target % 1 === 0 ? Math.floor(target) : target.toFixed(1);
-        clearInterval(timer);
-      } else {
-        el.textContent = target % 1 === 0 ? Math.floor(current) : current.toFixed(1);
+  if (hamburger && mobileMenu) {
+    hamburger.addEventListener('click', function () {
+      setMenu(mobileMenu.hidden);
+    });
+    mobileMenu.addEventListener('click', function (e) {
+      if (e.target.closest('a')) setMenu(false);
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && !mobileMenu.hidden) { setMenu(false); hamburger.focus(); }
+    });
+    document.addEventListener('click', function (e) {
+      if (mobileMenu.hidden) return;
+      if (!e.target.closest('#mobile-menu') && !e.target.closest('#hamburger')) setMenu(false);
+    });
+    window.addEventListener('resize', function () {
+      if (window.innerWidth > 720 && !mobileMenu.hidden) setMenu(false);
+    });
+  }
+
+  /* ---- COUNTER ANIMATION ---------------------------------------------- */
+  var counters = $$('.stat-number[data-target]');
+  function renderCount(el, value) {
+    var target = parseFloat(el.dataset.target);
+    el.textContent = target % 1 === 0 ? Math.floor(value).toString() : value.toFixed(1);
+  }
+  if (counters.length) {
+    if (prefersReducedMotion || !('IntersectionObserver' in window)) {
+      counters.forEach(function (el) { renderCount(el, parseFloat(el.dataset.target)); });
+    } else {
+      var countObserver = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          var el = entry.target;
+          var target = parseFloat(el.dataset.target);
+          var start = performance.now();
+          var duration = 1500;
+          (function tick(now) {
+            var p = Math.min((now - start) / duration, 1);
+            var eased = 1 - Math.pow(1 - p, 3);
+            renderCount(el, target * eased);
+            if (p < 1) requestAnimationFrame(tick);
+          })(start);
+          countObserver.unobserve(el);
+        });
+      }, { threshold: 0.5 });
+      counters.forEach(function (el) { countObserver.observe(el); });
+    }
+  }
+
+  /* ---- BLOCK CALCULATOR --------------------------------------------- */
+  var calcForm   = $('#calc-form');
+  var calcResult = $('#calc-result');
+  var calcError  = $('#calc-error');
+  var BLOCK_FACE_SQFT = (16 / 12) * (8 / 12); // 16in x 8in face
+  var WASTAGE = 1.05;
+
+  function num(id) { return parseFloat($('#' + id).value); }
+
+  function calculateBlocks(e) {
+    if (e) e.preventDefault();
+    var lengthFt = num('wall-length');
+    var heightFt = num('wall-height');
+    var lenEl = $('#wall-length');
+    var htEl  = $('#wall-height');
+
+    var lenBad = !(lengthFt > 0);
+    var htBad  = !(heightFt > 0);
+    lenEl.setAttribute('aria-invalid', String(lenBad));
+    htEl.setAttribute('aria-invalid', String(htBad));
+
+    if (lenBad || htBad) {
+      if (calcError) calcError.hidden = false;
+      (lenBad ? lenEl : htEl).focus();
+      return;
+    }
+    if (calcError) calcError.hidden = true;
+
+    var sizeEl    = $('#block-size');
+    var priceEach = parseFloat(sizeEl.options[sizeEl.selectedIndex].dataset.price);
+    var wallArea  = lengthFt * heightFt;
+    var totalBlocks = Math.ceil((wallArea / BLOCK_FACE_SQFT) * WASTAGE);
+    var totalCost   = Math.ceil(totalBlocks * priceEach);
+
+    $('#result-blocks').textContent = totalBlocks.toLocaleString('en-US');
+    $('#result-cost').textContent   = '৳' + totalCost.toLocaleString('en-US');
+    $('#result-area').textContent   = wallArea.toLocaleString('en-US', { maximumFractionDigits: 1 }) + ' sq ft';
+
+    calcResult.hidden = false;
+    calcResult.scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth', block: 'nearest' });
+  }
+
+  if (calcForm) {
+    calcForm.addEventListener('submit', calculateBlocks);
+    ['wall-length', 'wall-height'].forEach(function (id) {
+      var el = $('#' + id);
+      if (el) el.addEventListener('input', function () { el.setAttribute('aria-invalid', 'false'); });
+    });
+  }
+
+  /* ---- ORDER FORM -> WhatsApp handoff ------------------------------ */
+  var orderForm = $('#order-form');
+
+  function showFieldError(inputId, errorId, show) {
+    var input = $('#' + inputId);
+    var err   = $('#' + errorId);
+    if (input) input.setAttribute('aria-invalid', String(show));
+    if (err) err.hidden = !show;
+  }
+
+  function digitsOnly(str) { return (str.match(/\d/g) || []).length; }
+
+  if (orderForm) {
+    orderForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      var name  = $('#f-name').value.trim();
+      var phone = $('#f-phone').value.trim();
+      var loc   = $('#f-project').value.trim();
+      var size  = $('#f-size').value;
+      var qty   = $('#f-qty').value.trim();
+      var msg   = $('#f-msg').value.trim();
+      var success = $('#form-success');
+
+      var nameBad  = name === '';
+      var phoneBad = digitsOnly(phone) < 6;
+      showFieldError('f-name', 'err-name', nameBad);
+      showFieldError('f-phone', 'err-phone', phoneBad);
+
+      if (nameBad || phoneBad) {
+        $('#' + (nameBad ? 'f-name' : 'f-phone')).focus();
+        return;
       }
-    }, step);
-    observer.unobserve(el);
-  });
-}, { threshold: 0.4 });
 
-counters.forEach(c => observer.observe(c));
+      var lines = [
+        'Hello Bongshai Concrete Block! 🧱', '',
+        'New Order',
+        'Name: ' + name,
+        'Phone: ' + phone
+      ];
+      if (loc)  lines.push('Location: ' + loc);
+      if (size) lines.push('Block Size: ' + size);
+      if (qty)  lines.push('Quantity: ' + qty + ' pcs');
+      if (msg)  lines.push('Notes: ' + msg);
 
-// ---- BLOCK CALCULATOR ----
-function calculateBlocks() {
-  const lengthFt  = parseFloat(document.getElementById('wall-length').value);
-  const heightFt  = parseFloat(document.getElementById('wall-height').value);
-  const sizeEl    = document.getElementById('block-size');
-  const sizeInch  = parseInt(sizeEl.value);
-  const priceEach = parseFloat(sizeEl.options[sizeEl.selectedIndex].dataset.price);
-  const resultBox = document.getElementById('calc-result');
+      var waUrl = 'https://wa.me/8801781636613?text=' + encodeURIComponent(lines.join('\n'));
 
-  if (!lengthFt || !heightFt || lengthFt <= 0 || heightFt <= 0) {
-    document.getElementById('wall-length').focus();
-    document.getElementById('wall-length').style.borderColor = 'hsl(0,75%,58%)';
-    setTimeout(() => { document.getElementById('wall-length').style.borderColor = ''; }, 2000);
-    return;
+      if (success) {
+        success.hidden = false;
+        success.scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth', block: 'nearest' });
+      }
+      window.open(waUrl, '_blank', 'noopener');
+
+      window.setTimeout(function () {
+        orderForm.reset();
+        if (success) success.hidden = true;
+      }, 6000);
+    });
+
+    orderForm.addEventListener('input', function (e) {
+      if (e.target.id === 'f-name') showFieldError('f-name', 'err-name', false);
+      if (e.target.id === 'f-phone') showFieldError('f-phone', 'err-phone', false);
+    });
   }
 
-  // Block dimensions: 16"x8" face (1.333ft x 0.667ft)
-  const blockFaceArea = (16 / 12) * (8 / 12); // sq ft
-  const wallArea      = lengthFt * heightFt;
-  const rawBlocks     = wallArea / blockFaceArea;
-  const totalBlocks   = Math.ceil(rawBlocks * 1.05); // 5% wastage
-  const totalCost     = totalBlocks * priceEach;
-
-  document.getElementById('result-blocks').textContent = totalBlocks.toLocaleString('en-BD');
-  document.getElementById('result-cost').textContent   = '৳' + Math.ceil(totalCost).toLocaleString('en-BD');
-  document.getElementById('result-area').textContent   = wallArea.toFixed(1) + ' sq ft';
-
-  resultBox.hidden = false;
-  resultBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-
-  // Animate result values
-  resultBox.querySelectorAll('.result-value').forEach(v => {
-    v.style.animation = 'none';
-    v.offsetHeight; // reflow
-    v.style.animation = 'result-pop 0.4s cubic-bezier(0.34,1.56,0.64,1)';
+  /* Pre-select block size from product "Order Now" links */
+  $$('[data-mcp-param-product]').forEach(function (link) {
+    link.addEventListener('click', function () {
+      var p = link.dataset.mcpParamProduct;
+      var fSize = $('#f-size');
+      if (fSize && p && /^16x8x[345]$/.test(p)) fSize.value = p;
+    });
   });
-}
 
-// Allow Enter key in calculator inputs
-['wall-length','wall-height'].forEach(id => {
-  document.getElementById(id)?.addEventListener('keypress', e => {
-    if (e.key === 'Enter') calculateBlocks();
-  });
-});
-
-// Block calculator style
-const calcStyle = document.createElement('style');
-calcStyle.textContent = `@keyframes result-pop { from { transform: scale(0.8); opacity:0; } to { transform: scale(1); opacity:1; } }`;
-document.head.appendChild(calcStyle);
-
-// ---- QUOTE FORM ----
-const quoteForm = document.getElementById('quote-form');
-quoteForm?.addEventListener('submit', (e) => {
-  e.preventDefault();
-  const name    = document.getElementById('f-name').value.trim();
-  const phone   = document.getElementById('f-phone').value.trim();
-  const size    = document.getElementById('f-size').value;
-  const qty     = document.getElementById('f-qty').value;
-  const loc     = document.getElementById('f-project').value.trim();
-  const msg     = document.getElementById('f-msg').value.trim();
-  const success = document.getElementById('form-success');
-
-  if (!name || !phone) {
-    if (!name) document.getElementById('f-name').style.borderColor = 'hsl(0,75%,58%)';
-    if (!phone) document.getElementById('f-phone').style.borderColor = 'hsl(0,75%,58%)';
-    setTimeout(() => {
-      document.getElementById('f-name').style.borderColor = '';
-      document.getElementById('f-phone').style.borderColor = '';
-    }, 2500);
-    return;
+  /* ---- SCROLL REVEAL --------------------------------------------- */
+  var revealEls = $$('.product-card, .feature-card, .testimonial-card, .stat-big, .faq-item, .contact-method-link, .strength-chart, .compare-table-wrap');
+  if (revealEls.length && !prefersReducedMotion && 'IntersectionObserver' in window) {
+    var revealObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        var el = entry.target;
+        el.classList.add('revealed');
+        revealObserver.unobserve(el);
+        // Drop the helper classes once shown so no leftover transform/transition
+        // interferes with the element's own :hover styles.
+        window.setTimeout(function () { el.classList.remove('reveal-init', 'revealed'); }, 750);
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    revealEls.forEach(function (el) { el.classList.add('reveal-init'); revealObserver.observe(el); });
   }
 
-  // Build WhatsApp message
-  let waMsg = `Hello Bongshai Concrete Block! 🧱%0A%0A`;
-  waMsg += `*New Quote Request*%0A`;
-  waMsg += `Name: ${encodeURIComponent(name)}%0A`;
-  waMsg += `Phone: ${encodeURIComponent(phone)}%0A`;
-  if (loc)  waMsg += `Location: ${encodeURIComponent(loc)}%0A`;
-  if (size) waMsg += `Block Size: ${encodeURIComponent(size)}%0A`;
-  if (qty)  waMsg += `Quantity: ${encodeURIComponent(qty)} pcs%0A`;
-  if (msg)  waMsg += `Notes: ${encodeURIComponent(msg)}%0A`;
-
-  const waUrl = `https://wa.me/8801781636613?text=${waMsg}`;
-
-  // Show success, open WA
-  success.hidden = false;
-  success.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-  setTimeout(() => { window.open(waUrl, '_blank', 'noopener'); }, 400);
-
-  // Reset form after 4s
-  setTimeout(() => {
-    quoteForm.reset();
-    success.hidden = true;
-  }, 6000);
-});
-
-// Auto-select block size from product "Order Now" links
-document.querySelectorAll('[data-mcp-param-product]').forEach(link => {
-  link.addEventListener('click', () => {
-    const p = link.dataset.mcpParamProduct;
-    const fSize = document.getElementById('f-size');
-    if (!fSize) return;
-    if (p && p.includes('16x8x3')) fSize.value = '16x8x3';
-    else if (p && p.includes('16x8x4')) fSize.value = '16x8x4';
-    else if (p && p.includes('16x8x5')) fSize.value = '16x8x5';
-  });
-});
-
-// ---- SMOOTH SECTION REVEAL ANIMATIONS ----
-const revealEls = document.querySelectorAll(
-  '.product-card, .feature-card, .testimonial-card, .stat-big, .faq-item, .contact-method-link'
-);
-const revealObserver = new IntersectionObserver((entries) => {
-  entries.forEach((entry, i) => {
-    if (entry.isIntersecting) {
-      entry.target.style.animationDelay = `${i * 0.05}s`;
-      entry.target.classList.add('revealed');
-      revealObserver.unobserve(entry.target);
-    }
-  });
-}, { threshold: 0.1 });
-
-revealEls.forEach(el => {
-  el.classList.add('reveal-init');
-  revealObserver.observe(el);
-});
-
-// Add CSS for reveal
-const revealStyle = document.createElement('style');
-revealStyle.textContent = `
-  .reveal-init { opacity: 0; transform: translateY(24px); transition: opacity 0.55s ease, transform 0.55s ease; transition-delay: var(--reveal-delay, 0s); }
-  .revealed { opacity: 1 !important; transform: none !important; }
-`;
-document.head.appendChild(revealStyle);
-
-// ---- ACTIVE NAV HIGHLIGHT ----
-const sections = document.querySelectorAll('section[id]');
-const navLinks = document.querySelectorAll('.nav-links a');
-
-const sectionObserver = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      navLinks.forEach(l => l.classList.remove('active'));
-      const activeLink = document.querySelector(`.nav-links a[href="#${entry.target.id}"]`);
-      if (activeLink) activeLink.classList.add('active');
-    }
-  });
-}, { threshold: 0.3, rootMargin: '-60px 0px -40% 0px' });
-
-sections.forEach(s => sectionObserver.observe(s));
-
-// Active nav style
-const navStyle = document.createElement('style');
-navStyle.textContent = `.nav-links a.active { color: var(--clr-accent) !important; background: var(--clr-accent-glow) !important; }`;
-document.head.appendChild(navStyle);
+  /* ---- ACTIVE NAV LINK ----------------------------------------- */
+  var navLinks = $$('.nav-links a');
+  var sections = $$('main section[id]');
+  if (navLinks.length && sections.length && 'IntersectionObserver' in window) {
+    var navObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        navLinks.forEach(function (l) {
+          var on = l.getAttribute('href') === '#' + entry.target.id;
+          l.classList.toggle('active', on);
+          if (on) { l.setAttribute('aria-current', 'true'); } else { l.removeAttribute('aria-current'); }
+        });
+      });
+    }, { threshold: 0.3, rootMargin: '-70px 0px -45% 0px' });
+    sections.forEach(function (s) { navObserver.observe(s); });
+  }
+})();

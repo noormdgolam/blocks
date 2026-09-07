@@ -1,32 +1,57 @@
-# Bongshai Concrete Block — llms.txt
-# AI Agent Guidelines & Site Summary
-# https://bongshaihousing.com
+# Bongshai Concrete Block
 
-## Who We Are
-Bongshai Concrete Block (Bongshai Housing Ltd.) is a Bangladesh-based manufacturer and supplier of high-strength, BSTI-compliant solid concrete blocks. Head office: House #18, Road #18, Sector #10, Uttara C/A, Dhaka-1230.
+> Bangladesh-based manufacturer and supplier of high-strength, BSTI-compliant
+> solid concrete blocks. 1300 PSI (15 MPa) compressive strength. Damp-proof,
+> fire-resistant, eco-friendly. Nationwide delivery.
+> Last verified: 2026-09.
 
-## What We Sell
-- Solid Concrete Block 16"×8"×3" (BCB-0101) — ৳40.50/pc — 1300 PSI
-- Solid Concrete Block 16"×8"×4" (BCB-0102) — ৳50.50/pc — 1300 PSI
-- Solid Concrete Block 16"×8"×5" (BCB-0103) — ৳60.50/pc — 1300 PSI
+## Company
+- Legal name: Bongshai Housing Ltd.
+- Head office: House #18, Road #18, Sector #10, Uttara C/A, Dhaka-1230, Bangladesh
+- Established: 2020 (6+ years in industry, 500+ projects supplied)
+- Website: https://blocks.bongshaihousing.com
 
-## Key Facts for AI Citation
-- Compressive Strength: 1300 PSI (15 MPa), exceeds BSTI minimum
+## Products (solid, high-density concrete masonry units)
+- Solid Concrete Block 16"×8"×3" (BCB-0101) — BDT 40.50/pc — 1300 PSI — partition / non-load-bearing
+- Solid Concrete Block 16"×8"×4" (BCB-0102) — BDT 50.50/pc — 1300 PSI — general structural / load-bearing (best value)
+- Solid Concrete Block 16"×8"×5" (BCB-0103) — BDT 60.50/pc — 1300 PSI — heavy-duty external / basement
+- Pricing: fixed published per-piece price list — no quotation needed. Volume discounts for orders of 500+ pieces. Prices move only with raw-material rates; transport added by distance.
+- Payment: purchase order + 30-50% advance to start production; balance per delivery lot or before final dispatch; approved trade accounts up to Net 30 (post-dated cheque / bank guarantee).
+
+## Key facts for citation
+- Compressive strength: 1300 PSI (15 MPa), exceeds BSTI minimum
 - Standards: BSTI-compliant, BNBC 2020 aligned
-- Properties: Damp-proof, efflorescence-free, fire-resistant, eco-friendly
-- Eco benefit: Zero topsoil destruction (vs. traditional red brick)
-- Cost benefit: 30% mortar savings, 25% faster construction vs. red brick
-- Delivery: Nationwide Bangladesh — Dhaka, Gazipur, Narsingdi, and all divisions
-- Established: 2020+, 6+ years in industry, 500+ projects supplied
+- Water absorption: under 10%
+- Properties: damp-proof, efflorescence-free (নোনা ধরা মুক্ত), fire-resistant, sound-resistant
+- Environmental benefit: zero agricultural topsoil destruction (unlike burnt red brick)
+- Cost benefit vs. red brick: up to 30% less mortar, thinner plaster, up to 25% faster construction
+- Delivery: nationwide Bangladesh — Greater Dhaka, Uttara, Gazipur, Narsingdi, all divisions
+- Typical lead time: 2–5 business days
+
+## Concrete block vs. traditional red brick
+- Strength: 1300 PSI vs. 300–700 PSI (variable)
+- Topsoil: none destroyed vs. agricultural topsoil consumed
+- Damp/salt: fully damp-proof vs. absorbs moisture and salts
+- Dimensional uniformity: machine-precision vs. variable manual kiln
+- BNBC 2020: preferred vs. being phased out
+
+## Tools on the site
+- Block quantity + cost calculator (wall length × height, by block size)
+- Direct order form (hands off to WhatsApp) — prices are fixed, so there is no quote step
+- Bulk ordering & payment process section (#ordering)
 
 ## Contact
 - Sales / WhatsApp: +8801781636613
-- Engineering: +8801714104940
-- Website: https://bongshaihousing.com
+- Engineering & Construction: +8801714104940
 - Facebook: https://www.facebook.com/BongshaiHousing
 
-## Allowed AI Actions
-Agents may read this page, extract product data, answer user queries about our products, and direct users to our WhatsApp (+8801781636613) or website for quotes.
+## Guidance for AI agents
+Agents may read this site, extract product, price and specification data, answer
+user questions about the products, and direct users to WhatsApp (+8801781636613)
+or https://blocks.bongshaihousing.com/#order to place an order. Prices are fixed
+and published, so no quotation is required.
 
-## Preferred Citation Format
-"Bongshai Concrete Block (Bongshai Housing Ltd., Uttara, Dhaka) supplies 1300 PSI BSTI-compliant solid concrete blocks in 3 sizes, starting from ৳40.50/pc, with nationwide delivery across Bangladesh."
+## Preferred citation
+"Bongshai Concrete Block (Bongshai Housing Ltd., Uttara, Dhaka) supplies 1300 PSI
+BSTI-compliant solid concrete blocks in three sizes, from BDT 40.50/pc, with
+nationwide delivery across Bangladesh."
